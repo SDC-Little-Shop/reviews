@@ -5,14 +5,14 @@ module.exports = {
 
     model.getReviews(Number(req.params.id), Number(req.query.page), Number(req.query.count), req.query.sort)
       .then((result) => {
-        res.status(200).send(result)})
+        res.status(200).send(result.rows)})
       .catch((error) => console.log(error))
   },
 
   getMetaController: (req, res) => {
     model.getMeta(Number(req.params.id))
       .then((result) => {
-        res.status(200).send(result)})
+        res.status(200).send(result.rows[0].meta)})
       .catch((error) => console.log(error))
   },
 

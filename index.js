@@ -1,6 +1,5 @@
 const express = require('express');
-const reviewRouter = require('./reviews/reviewRouter.js');
-const qaRouter = require('./qa/qaRouter.js');
+const reviewRouter = require('./reviewRouter.js');
 const path = require('path');
 const app = express();
 const port = 3001;

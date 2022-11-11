@@ -8,7 +8,7 @@ export const options = {
     { duration: '2m', target: 200 }, // normal load
     { duration: '5m', target: 200 },
     { duration: '2m', target: 300 }, // around the breaking point
-    { duration: '5m', target: 300},
+    { duration: '5m', target: 300 },
     { duration: '2m', target: 400 }, // beyond the breaking point
     { duration: '5m', target: 400 },
     { duration: '10m', target: 0 }, // scale down. Recovery stage.
@@ -34,12 +34,12 @@ export default function () {
   })
 
   // const responses = http.get(`${BASE_URL}/40344?page=1&count=5&sort='relevant'`)
-  // const responses = http.get(`${BASE_URL}/meta/40344`)
-  const responses = http.post(`${BASE_URL}`, payload, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
+  const responses = http.get(`${BASE_URL}/meta/40344`)
+  // const responses = http.post(`${BASE_URL}`, payload, {
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // })
   // const responses = http.put(`${BASE_URL}/40344/helpful`)
   // const responses = http.put(`${BASE_URL}/40344/report`)
 

@@ -43,7 +43,7 @@ CREATE TABLE photos (
 
 CREATE TABLE reviews_characteristics (
   id SERIAL PRIMARY KEY,
-  characteristic_id INT,
+  characteristic_id INT REFERENCES product_characteristics(id),
   review_id INT REFERENCES reviews(id),
   value INT
 );

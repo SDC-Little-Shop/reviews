@@ -25,57 +25,76 @@ module.exports = {
     let reviews = pool.query(queryString);
     return reviews;
   },
-  getMeta: ({ product_id }) => {
+  getMeta: (product_id) => {
     const queryString =
     `SELECT json_build_object(
         'product_id', ${product_id},
         'ratings', (SELECT json_build_object(
             '1', (SELECT COUNT(rating)
                 FROM reviews
-                WHERE product_id=${product_id} AND rating = 1),
+                WHERE product_id=${product_id} AND rating=1),
             '2', (SELECT COUNT(rating)
                 FROM reviews
-                WHERE product_id=${product_id} AND rating = 2),
+                WHERE product_id=${product_id} AND rating=2),
             '3', (SELECT COUNT(rating)
                 FROM reviews
-                WHERE product_id=${product_id} AND rating = 3),
+                WHERE product_id=${product_id} AND rating=3),
             '4', (SELECT COUNT(rating)
                 FROM reviews
-                WHERE product_id=${product_id} AND rating = 4),
+                WHERE product_id=${product_id} AND rating=4),
             '5', (SELECT COUNT(rating)
                 FROM reviews
-                WHERE product_id=${product_id} AND rating = 5)
+                WHERE product_id=${product_id} AND rating=5)
             )
             FROM reviews
             WHERE product_id=${product_id}
             LIMIT 1),
-        'recommended', SELECT json_build_object(
+        'recommended', (SELECT json_build_object(
             'false', (SELECT COUNT(recommend)
               FROM reviews
-              WHERE product_id = ${product_id} AND recommend = 'false'),
+              WHERE product_id=${product_id} AND recommend='false'),
             'true', (SELECT COUNT(recommend)
               FROM reviews
-              WHERE product_id = ${product_id} AND recommend = 'true')
+              WHERE product_id=${product_id} AND recommend='true')
+            )
             FROM reviews
-            WHERE product_id = ${product_id}
+            WHERE product_id=${product_id}
             LIMIT 1),
         'characteristics', (SELECT json_object_agg(
-            name, (SELECT json_build_object(
-                'id', characteristics_id,
-                'value', (SELECT AVG(value)
-                    FROM characteristics_reviews
-                    WHERE characteristic_id=characteristics_id)
+          name, (SELECT json_build_object(
+            'id', product_characteristics.id,
+            'value', (SELECT AVG(value)
+              FROM reviews_characteristics
+              WHERE characteristic_id=product_characteristics.id
+              )
             )
             FROM reviews_characteristics
-            WHERE characteristic_id=characteristics_id
             LIMIT 1)
         )
         FROM product_characteristics
-        WHERE product_id = ${product_id}
+        WHERE product_id=${product_id}
         )) AS meta;`
     let meta = pool.query(queryString);
     return meta;
   },
+
+
+  // (
+  //   SELECT product_id from product_characteristics,
+  //   SELECT name from product_characteristics,
+  //   json_build_object(
+  //     'id', id from product_characteristics,
+  //     'value', value from reviews_characteristics
+  //   )
+  //   FROM characteristic_reviews
+  //   INNER JOIN
+  //     product_characteristics
+  //   ON
+  //     product_characteristics(id) = reviews_characteristics(characteristic_id)
+  //   WHERE
+  //     product_id = ${product_id}
+  // );
+
 
   addReview: async({product_id, rating, summary, body, recommend, reviewer_name, reviewer_email, photos, characteristics}) => {
     const params = [product_id, rating, summary, body, recommend, reviewer_name, reviewer_email];
