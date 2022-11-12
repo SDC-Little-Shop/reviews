@@ -77,25 +77,6 @@ module.exports = {
     let meta = pool.query(queryString);
     return meta;
   },
-
-
-  // (
-  //   SELECT product_id from product_characteristics,
-  //   SELECT name from product_characteristics,
-  //   json_build_object(
-  //     'id', id from product_characteristics,
-  //     'value', value from reviews_characteristics
-  //   )
-  //   FROM characteristic_reviews
-  //   INNER JOIN
-  //     product_characteristics
-  //   ON
-  //     product_characteristics(id) = reviews_characteristics(characteristic_id)
-  //   WHERE
-  //     product_id = ${product_id}
-  // );
-
-
   addReview: async({product_id, rating, summary, body, recommend, reviewer_name, reviewer_email, photos, characteristics}) => {
     const params = [product_id, rating, summary, body, recommend, reviewer_name, reviewer_email];
     const queryString = `INSERT INTO reviews(product_id, rating, date, summary, body, recommend, reported, reviewer_name, reviewer_email, response, helpfulness)

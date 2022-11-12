@@ -16,25 +16,12 @@ export const options = {
 };
 
 export default function () {
-  const BASE_URL = 'http://localhost:3001/reviews'; // make sure this is not production
+  // const BASE_URL = 'http://reviews/%{*:9000010-1000011}?page=%{*:1-5}&count=%{*:1-20}&sort=relevant'; // make sure this is not production
 
-  const payload = JSON.stringify({
-      product_id: 40344,
-      rating: 4,
-      date: "2022-11-08",
-      summary: "set my hair on fire",
-      body: "like I said, I was lit up like times square",
-      recommend: true,
-      reviewer_name: "Frank the Tank",
-      reviewer_email: "franklin@app.com",
-      photos: ["url.com", "mtdiablourl.com", "anotherphoto.url"],
-      characteristics: {
-          Fit: {id: 40344, value: 3}
-      }
-  })
+  const BASE_URL = 'http://13.57.177.160:3001/reviews'
 
-  // const responses = http.get(`${BASE_URL}/40344?page=1&count=5&sort='relevant'`)
-  const responses = http.get(`${BASE_URL}/meta/40344`)
+  const responses = http.get(`${BASE_URL}/40344?page=1&count=5&sort='relevant'`)
+  // const responses = http.get(`${BASE_URL}/meta/40344`)
   // const responses = http.post(`${BASE_URL}`, payload, {
   //   headers: {
   //     'Content-Type': 'application/json',
